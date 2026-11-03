@@ -1,0 +1,53 @@
+# Single place to change project behaviour. DVC watches these values:
+# if you edit a value here, `dvc repro` re-runs only the stages that use it.
+
+data:
+  raw_path: data/raw/breast_cancer_raw.csv
+  train_path: data/processed/train.csv
+  test_path: data/processed/test.csv
+  target: diagnosis            # 1 = malignant, 0 = benign
+  simulate_dirty_data: true    # inject duplicates / missing values so the cleaning step has real work
+  dirty_seed: 7
+  test_size: 0.2
+  random_state: 42
+  max_missing_ratio_per_row: 0.30
+
+mlflow:
+  tracking_uri: sqlite:///mlflow.db
+  experiment_name: breast-cancer-classification
+  registered_model_name: breast-cancer-classifier
+
+training:
+  cv_folds: 5
+  selection_metric: f1          # model with the best value of this metric wins
+  min_metric_to_register: 0.90  # quality gate: below this the model is NOT registered
+  models:
+    logistic_regression:
+      C: 1.0
+      max_iter: 2000
+    random_forest:
+      n_estimators: 200
+      max_depth: 8
+      random_state: 42
+    gradient_boosting:
+      n_estimators: 150
+      learning_rate: 0.05
+      max_depth: 3
+      random_state: 42
+    svc:
+      C: 2.0
+      kernel: rbf
+      probability: true
+      random_state: 42
+
+paths:
+  model: models/model.joblib
+  model_info: models/model_info.json
+  comparison: metrics/model_comparison.csv
+  metrics: metrics/metrics.json
+  plots_dir: metrics/plots
+  drift_dir: monitoring/reports
+  prediction_log: logs/predictions.csv
+
+monitoring:
+  drift_share_threshold: 0.30   # alert if more than 30 % of features drifted

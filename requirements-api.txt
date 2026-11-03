@@ -1,0 +1,11 @@
+# Slim runtime dependencies used inside the Docker image (serving only).
+# scikit-learn / numpy / pandas versions MUST match requirements.txt,
+# otherwise the pickled model may fail to load.
+numpy==2.5.4
+pandas==2.3.3
+scikit-learn==1.9.1
+joblib==1.6.0
+PyYAML==6.0.3
+fastapi==0.162.0
+uvicorn==0.54.0
+pydantic==2.14.2

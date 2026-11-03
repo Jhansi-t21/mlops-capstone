@@ -1,0 +1,237 @@
+{
+  "timestamp": "20261101_051200",
+  "reference_rows": 452,
+  "current_rows": 100,
+  "features_checked": 30,
+  "features_drifted": 12,
+  "drift_share": 0.4,
+  "share_threshold": 0.3,
+  "dataset_drift_detected": true,
+  "drifted_features": [
+    "compactness_error",
+    "mean_area",
+    "mean_concavity",
+    "mean_perimeter",
+    "mean_radius",
+    "mean_smoothness",
+    "mean_texture",
+    "texture_error",
+    "worst_area",
+    "worst_perimeter",
+    "worst_radius",
+    "worst_texture"
+  ],
+  "report_html": "monitoring/reports/drift_report_20261101_051200.html",
+  "columns": [
+    {
+      "column": "mean_radius",
+      "method": "K-S p_value",
+      "score": 0.0,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "mean_texture",
+      "method": "K-S p_value",
+      "score": 0.0,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "mean_perimeter",
+      "method": "K-S p_value",
+      "score": 0.0,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "mean_area",
+      "method": "K-S p_value",
+      "score": 0.0,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "mean_smoothness",
+      "method": "K-S p_value",
+      "score": 0.025238,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "mean_compactness",
+      "method": "K-S p_value",
+      "score": 0.076866,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "mean_concavity",
+      "method": "K-S p_value",
+      "score": 0.00026,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "mean_concave_points",
+      "method": "K-S p_value",
+      "score": 0.550062,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "mean_symmetry",
+      "method": "K-S p_value",
+      "score": 0.684622,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "mean_fractal_dimension",
+      "method": "K-S p_value",
+      "score": 0.645137,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "radius_error",
+      "method": "K-S p_value",
+      "score": 0.188262,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "texture_error",
+      "method": "K-S p_value",
+      "score": 0.002583,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "perimeter_error",
+      "method": "K-S p_value",
+      "score": 0.234194,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "area_error",
+      "method": "K-S p_value",
+      "score": 0.339598,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "smoothness_error",
+      "method": "K-S p_value",
+      "score": 0.110881,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "compactness_error",
+      "method": "K-S p_value",
+      "score": 0.015876,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "concavity_error",
+      "method": "K-S p_value",
+      "score": 0.511031,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "concave_points_error",
+      "method": "K-S p_value",
+      "score": 0.27966,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "symmetry_error",
+      "method": "K-S p_value",
+      "score": 0.085739,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "fractal_dimension_error",
+      "method": "K-S p_value",
+      "score": 0.770996,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "worst_radius",
+      "method": "K-S p_value",
+      "score": 0.0,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "worst_texture",
+      "method": "K-S p_value",
+      "score": 0.0,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "worst_perimeter",
+      "method": "K-S p_value",
+      "score": 0.0,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "worst_area",
+      "method": "K-S p_value",
+      "score": 0.0,
+      "threshold": 0.05,
+      "drifted": true
+    },
+    {
+      "column": "worst_smoothness",
+      "method": "K-S p_value",
+      "score": 0.124954,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "worst_compactness",
+      "method": "K-S p_value",
+      "score": 0.073028,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "worst_concavity",
+      "method": "K-S p_value",
+      "score": 0.365212,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "worst_concave_points",
+      "method": "K-S p_value",
+      "score": 0.337636,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "worst_symmetry",
+      "method": "K-S p_value",
+      "score": 0.153009,
+      "threshold": 0.05,
+      "drifted": false
+    },
+    {
+      "column": "worst_fractal_dimension",
+      "method": "K-S p_value",
+      "score": 0.223981,
+      "threshold": 0.05,
+      "drifted": false
+    }
+  ]
+}

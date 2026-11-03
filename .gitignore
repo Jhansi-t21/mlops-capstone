@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# MLflow local store (rebuilt by training)
+mlruns/
+mlflow.db
+
+# Runtime outputs
+logs/
+monitoring/reports/
+screenshots/*.tmp
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# NOTE: data/ and models/ are handled by DVC (it writes its own .gitignore files there)

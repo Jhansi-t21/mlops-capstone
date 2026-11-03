@@ -1,0 +1,12 @@
+{
+  "rows_raw": 581,
+  "duplicates_removed": 12,
+  "missing_target_removed": 0,
+  "too_many_missing_removed": 0,
+  "invalid_rows_removed": 3,
+  "rows_clean": 566,
+  "missing_cells_left": 239,
+  "malignant_share": 0.3728,
+  "rows_train": 452,
+  "rows_test": 114
+}

@@ -1,0 +1,22 @@
+# ---- Exact versions this project was built and tested with (Python 3.12 / 3.13) ----
+# NOTE: pandas must stay below 3.0 because Evidently 0.7.x does not support pandas 3 yet.
+numpy==2.5.4
+pandas==2.3.3
+scikit-learn==1.9.1
+joblib==1.6.0
+PyYAML==6.0.3
+
+# MLOps tooling
+mlflow==3.17.2
+dvc==3.67.1
+evidently==0.7.23
+
+# Serving
+fastapi==0.162.0
+uvicorn==0.54.0
+pydantic==2.14.2
+
+# Testing / quality
+pytest==9.2.0
+httpx==0.28.1
+flake8==7.5.0

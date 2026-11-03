@@ -1,0 +1,63 @@
+# DVC pipeline. Run everything with:  dvc repro
+# DVC re-runs a stage ONLY when its code, data or params changed.
+stages:
+  collect:
+    cmd: python -m src.collect
+    deps:
+      - src/collect.py
+      - src/config.py
+    params:
+      - data.simulate_dirty_data
+      - data.dirty_seed
+    outs:
+      - data/raw/breast_cancer_raw.csv
+
+  preprocess:
+    cmd: python -m src.preprocess
+    deps:
+      - src/preprocess.py
+      - src/config.py
+      - data/raw/breast_cancer_raw.csv
+    params:
+      - data.test_size
+      - data.random_state
+      - data.max_missing_ratio_per_row
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+    metrics:
+      - metrics/data_quality.json:
+          cache: false
+
+  train:
+    cmd: python -m src.train
+    deps:
+      - src/train.py
+      - src/features.py
+      - src/config.py
+      - data/processed/train.csv
+      - data/processed/test.csv
+    params:
+      - training
+      - mlflow
+    outs:
+      - models/model.joblib
+      - models/model_info.json:
+          cache: false
+      - metrics/model_comparison.csv:
+          cache: false
+
+  evaluate:
+    cmd: python -m src.evaluate
+    deps:
+      - src/evaluate.py
+      - models/model.joblib
+      - data/processed/test.csv
+    metrics:
+      - metrics/metrics.json:
+          cache: false
+    plots:
+      - metrics/plots/confusion_matrix.png:
+          cache: false
+      - metrics/plots/roc_curve.png:
+          cache: false

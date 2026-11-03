@@ -1,0 +1,107 @@
+# Step 9 - CI/CD with GitHub Actions
+# On every push / pull request:
+#   1. lint the code
+#   2. run the whole DVC pipeline (collect -> preprocess -> train -> evaluate)
+#   3. run the automated tests
+#   4. build the Docker image, start it, smoke-test /health and /predict
+#   5. (main branch only) push the image to GitHub Container Registry
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  MLFLOW_DISABLE_AGENT_HINT: "1"
+
+jobs:
+  train-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Lint with flake8
+        run: flake8 src app tests scripts
+
+      - name: Reproduce the DVC pipeline (data -> train -> evaluate)
+        run: dvc repro
+
+      - name: Show metrics
+        run: |
+          dvc metrics show
+          cat metrics/metrics.json
+
+      - name: Run tests
+        run: pytest -v
+
+      - name: Drift check on a simulated shifted dataset (must detect drift)
+        run: |
+          python -m src.monitor --simulate none
+          python -m src.monitor --simulate drift
+
+      - name: Upload model and reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-and-reports
+          path: |
+            models/model.joblib
+            models/model_info.json
+            metrics/
+            monitoring/reports/latest_drift_report.html
+            monitoring/reports/drift_summary.json
+
+  docker:
+    needs: train-and-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download trained model
+        uses: actions/download-artifact@v4
+        with:
+          name: model-and-reports
+          path: .
+
+      - name: Build Docker image
+        run: docker build -t breast-cancer-api:ci .
+
+      - name: Start container
+        run: docker run -d --name bc-api -p 8000:8000 breast-cancer-api:ci
+
+      - name: Smoke test the running container
+        run: python3 scripts/smoke_test.py http://localhost:8000
+
+      - name: Show container logs on failure
+        if: failure()
+        run: docker logs bc-api
+
+      - name: Log in to GitHub Container Registry
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push image
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          IMAGE=ghcr.io/$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')/breast-cancer-api
+          docker tag breast-cancer-api:ci $IMAGE:latest
+          docker tag breast-cancer-api:ci $IMAGE:${{ github.sha }}
+          docker push $IMAGE:latest
+          docker push $IMAGE:${{ github.sha }}
